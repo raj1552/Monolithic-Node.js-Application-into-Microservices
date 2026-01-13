@@ -1,37 +1,54 @@
-## Breaking a Monolithic Node.js Application into Microservices
+# Breaking a Monolithic Node.js Application into Microservices
 
-In this lab, I worked on migrating a monolithic Node.js message board application to a containerized microservices architecture using AWS services. The original application handled users, threads, and posts within a single Node.js service, which made scaling and maintenance difficult.
+![AWS ECS Microservices](https://img.shields.io/badge/AWS-ECS-orange?style=for-the-badge&logo=amazonaws&logoColor=white)
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+![Node.js](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
 
-I first ran the monolithic application on a standard Node.js server and tested its REST APIs locally. After understanding the codebase and request flow, I containerized the monolithic application using Docker and pushed the image to Amazon Elastic Container Registry (ECR). The containerized monolith was then deployed to Amazon Elastic Container Service (ECS) using EC2 launch type and exposed through an Application Load Balancer.
+## Project Overview
 
-Next, I refactored the monolithic application into three independent microservices: Users, Threads, and Posts. Each microservice handled a single business capability and had its own Docker image and ECR repository. I built and pushed separate container images for each service and created individual ECS task definitions.
+This guided lab demonstrates the complete process of migrating a **monolithic Node.js message board application** into a modern **microservices architecture** running on AWS.
 
-Finally, I deployed each microservice as a separate ECS service and configured path-based routing on the Application Load Balancer. Requests were routed to the correct microservice based on API paths such as /api/users, /api/threads, and /api/posts. This setup allowed each service to scale and update independently.
+The original monolithic application handled **users**, **threads**, and **posts** in a single service — making scaling, maintenance, and independent deployments difficult.
+
+The final architecture consists of three independent microservices:
+
+- **Users Service** — manages user registration, authentication, profiles
+- **Threads Service** — handles thread creation, listing, and management
+- **Posts Service** — manages posts within threads (CRUD operations)
+
+Each service is containerized, independently deployable, and scalable.
+
+## Architecture Journey
+`` Monolith (single Node.js app)
+↓
+Containerized Monolith (Docker + ECR + ECS + ALB)
+↓
+Refactored into 3 Microservices:
+├── Users Service     → /api/users/*
+├── Threads Service   → /api/threads/*
+└── Posts Service     → /api/posts/*
+↓
+Deployed as separate ECS Services with path-based routing via Application Load Balancer ``
 
 ## Key Technologies Used
 
-Node.js (Koa framework)
+- **Backend**: Node.js + Koa framework
+- **Containerization**: Docker
+- **Container Registry**: Amazon Elastic Container Registry (ECR)
+- **Orchestration**: Amazon Elastic Container Service (ECS) – EC2 launch type
+- **Load Balancing & Routing**: Application Load Balancer (ALB) with path-based routing
+- **CLI**: AWS CLI
 
-Docker
+## Final Deployment Flow
 
-Amazon ECS (EC2 launch type)
-
-Amazon ECR
-
-Application Load Balancer
-
-AWS CLI
-
-Key Learnings
-
-## Difference between monolithic and microservices architecture
-
-Containerizing applications using Docker
-
-Deploying and managing containers on Amazon ECS
-
-Using Application Load Balancer for path-based routing
-
-Designing scalable and independently deployable services
-
-## Full Guided Documentation - https://www.notion.so/Breaking-a-Monolithic-Node-js-Application-into-Microservices-2e1e8585d3ec80499445e4dc69a30517?source=copy_link
+1. Each microservice has its own **Dockerfile** and **ECR repository**
+2. Images are built and pushed to ECR
+3. Separate **ECS Task Definitions** created for each service
+4. Three **ECS Services** running on ECS cluster (EC2 launch type)
+5. Single **Application Load Balancer** with listener rules:
+   - `/api/users/*` → Users Service
+   - `/api/threads/*` → Threads Service
+   - `/api/posts/*` → Posts Service
+  
+📖 **Full Guided Lab Documentation**  
+https://www.notion.so/Breaking-a-Monolithic-Node-js-Application-into-Microservices-2e1e8585d3ec80499445e4dc69a30517

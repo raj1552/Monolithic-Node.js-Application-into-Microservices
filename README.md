@@ -19,7 +19,7 @@ The final architecture consists of three independent microservices:
 Each service is containerized, independently deployable, and scalable.
 
 ## Architecture Journey
-`` Monolith (single Node.js app)
+` Monolith (single Node.js app)
 ↓
 Containerized Monolith (Docker + ECR + ECS + ALB)
 ↓
@@ -28,7 +28,7 @@ Refactored into 3 Microservices:
 ├── Threads Service   → /api/threads/*
 └── Posts Service     → /api/posts/*
 ↓
-Deployed as separate ECS Services with path-based routing via Application Load Balancer ``
+Deployed as separate ECS Services with path-based routing via Application Load Balancer `
 
 ## Key Technologies Used
 
